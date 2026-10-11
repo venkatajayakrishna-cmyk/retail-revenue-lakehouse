@@ -1,12 +1,12 @@
-\# Retail Revenue Lakehouse
+# Retail Revenue Lakehouse
 
 
 
-An end-to-end cloud data engineering project built with \*\*Databricks, PySpark, Delta Lake and SQL\*\*. The project processes online retail transactions through Bronze, Silver and Gold layers, validates data quality, automates execution with Databricks Jobs, and presents business insights through an interactive dashboard.
+An end-to-end cloud data engineering project built with **Databricks, PySpark, Delta Lake and SQL**. The project processes online retail transactions through Bronze, Silver and Gold layers, validates data quality, automates execution with Databricks Jobs, and presents business insights through an interactive dashboard.
 
 
 
-\## 1. Problem Statement
+## 1. Problem Statement
 
 
 
@@ -18,23 +18,23 @@ This project builds a batch data pipeline for answering questions such as:
 
 
 
-\- Which countries generate the highest net revenue?
+- Which countries generate the highest net revenue?
 
-\- How does revenue change over time?
+- How does revenue change over time?
 
-\- How many invoice lines and invoices are processed?
+- How many invoice lines and invoices are processed?
 
-\- How should returns, cancellations and invalid records be handled?
+- How should returns, cancellations and invalid records be handled?
 
-\- How can data quality be checked automatically before results are used?
-
-
-
-\## 2. Dataset
+- How can data quality be checked automatically before results are used?
 
 
 
-\*\*Source:\*\* \[UCI Online Retail Dataset](https://archive.ics.uci.edu/dataset/352/online%2Bretail)
+## 2. Dataset
+
+
+
+**Source:** [UCI Online Retail Dataset](https://archive.ics.uci.edu/dataset/352/online%2Bretail)
 
 
 
@@ -46,7 +46,7 @@ Important fields include invoice number, product code, product description, quan
 
 
 
-\## 3. Architecture
+## 3. Architecture
 
 
 
@@ -134,7 +134,7 @@ Data Quality Checks
 
 
 
-\## 4. Technology Stack
+## 4. Technology Stack
 
 
 
@@ -158,15 +158,15 @@ Data Quality Checks
 
 
 
-\## 5. Data Pipeline
+## 5. Data Pipeline
 
 
 
-\### Bronze Layer
+### Bronze Layer
 
 
 
-Table: `project.retail.bronze\_transactions`
+Table: `project.retail.bronze_transactions`
 
 
 
@@ -174,11 +174,11 @@ The ingestion task reads the uploaded CSV using Spark and writes it to a Delta t
 
 
 
-\### Silver Layer
+### Silver Layer
 
 
 
-Table: `project.retail.silver\_transactions`
+Table: `project.retail.silver_transactions`
 
 
 
@@ -186,29 +186,29 @@ The cleaning task:
 
 
 
-\- Standardizes column names and data types.
+- Standardizes column names and data types.
 
-\- Trims whitespace from text fields.
+- Trims whitespace from text fields.
 
-\- Replaces missing descriptions and countries with `Unknown`.
+- Replaces missing descriptions and countries with `Unknown`.
 
-\- Removes duplicate records according to the selected business columns.
+- Removes duplicate records according to the selected business columns.
 
-\- Calculates line amount as quantity multiplied by unit price.
+- Calculates line amount as quantity multiplied by unit price.
 
-\- Flags cancellation-related invoices.
+- Flags cancellation-related invoices.
 
-\- Preserves valid negative quantities so returns can contribute to net revenue.
+- Preserves valid negative quantities so returns can contribute to net revenue.
 
-\- Separates records that fail required-field and sales-value checks.
-
-
-
-\### Quarantine Layer
+- Separates records that fail required-field and sales-value checks.
 
 
 
-Table: `project.retail.quarantined\_transactions`
+### Quarantine Layer
+
+
+
+Table: `project.retail.quarantined_transactions`
 
 
 
@@ -216,7 +216,7 @@ Records failing the selected validation rules are retained separately for invest
 
 
 
-\### Gold Layer
+### Gold Layer
 
 
 
@@ -224,11 +224,11 @@ The pipeline creates these analytical tables:
 
 
 
-\- `project.retail.gold\_revenue\_by\_country` — revenue, units, transaction lines and invoice counts by country.
+- `project.retail.gold_revenue_by_country` — revenue, units, transaction lines and invoice counts by country.
 
-\- `project.retail.gold\_daily\_revenue` — daily revenue and transaction aggregates.
+- `project.retail.gold_daily_revenue` — daily revenue and transaction aggregates.
 
-\- `project.retail.gold\_sales\_fact` — transaction-level fact table partitioned by invoice month.
+- `project.retail.gold_sales_fact` — transaction-level fact table partitioned by invoice month.
 
 
 
@@ -236,7 +236,7 @@ The sales fact table is optimised using Delta `OPTIMIZE` and Z-ordering on count
 
 
 
-\## 6. Data Quality
+## 6. Data Quality
 
 
 
@@ -244,19 +244,19 @@ The final workflow includes automated checks for:
 
 
 
-\- Required-field completeness in Silver.
+- Required-field completeness in Silver.
 
-\- Invalid quantities and unit prices.
+- Invalid quantities and unit prices.
 
-\- Duplicate business records.
+- Duplicate business records.
 
-\- Non-empty Gold analytical tables.
+- Non-empty Gold analytical tables.
 
-\- Record counts at different pipeline stages.
+- Record counts at different pipeline stages.
 
 
 
-\### Verified sample run
+### Verified sample run
 
 
 
@@ -280,7 +280,7 @@ Counts and revenue values describe the recorded successful run and should be rev
 
 
 
-\## 7. Dashboard
+## 7. Dashboard
 
 
 
@@ -288,9 +288,9 @@ The dashboard provides two main visualisations:
 
 
 
-1\. \*\*Revenue by Country:\*\* A bar chart comparing net line revenue across countries.
+1. **Revenue by Country:** A bar chart comparing net line revenue across countries.
 
-2\. \*\*Revenue Trend:\*\* A time-series chart showing how net line revenue changes over time.
+2. **Revenue Trend:** A time-series chart showing how net line revenue changes over time.
 
 
 
@@ -298,7 +298,7 @@ The Gold tables separate transformation logic from visualisation, making the das
 
 
 
-\## 8. Orchestration
+## 8. Orchestration
 
 
 
@@ -306,13 +306,13 @@ The Databricks Job contains four dependent tasks:
 
 
 
-1\. `bronze\_ingestion`
+1. `bronze_ingestion`
 
-2\. `silver\_cleaning`
+2. `silver_cleaning`
 
-3\. `gold\_marts`
+3. `gold_marts`
 
-4\. `data\_quality`
+4. `data_quality`
 
 
 
@@ -324,25 +324,25 @@ The current pipeline uses a full-refresh approach. Incremental ingestion, automa
 
 
 
-\## 9. Reproducing the Project
+## 9. Reproducing the Project
 
 
 
-1\. Create a Databricks workspace with access to Unity Catalog, volumes and serverless compute.
+1. Create a Databricks workspace with access to Unity Catalog, volumes and serverless compute.
 
-2\. Download the UCI Online Retail dataset.
+2. Download the UCI Online Retail dataset.
 
-3\. Upload the source CSV to a volume in the workspace.
+3. Upload the source CSV to a volume in the workspace.
 
-4\. Import the notebook source files from this repository.
+4. Import the notebook source files from this repository.
 
-5\. Update source paths and catalog/schema names to match your environment.
+5. Update source paths and catalog/schema names to match your environment.
 
-6\. Run the Bronze, Silver, Gold and data-quality notebooks in order.
+6. Run the Bronze, Silver, Gold and data-quality notebooks in order.
 
-7\. Configure the four-task Databricks Job and execute it.
+7. Configure the four-task Databricks Job and execute it.
 
-8\. Create or refresh the dashboard using the Gold tables.
+8. Create or refresh the dashboard using the Gold tables.
 
 
 
@@ -350,25 +350,25 @@ Workspace names, resource availability and permissions may differ between Databr
 
 
 
-\## 10. Limitations and Future Improvements
+## 10. Limitations and Future Improvements
 
 
 
-\- The current pipeline performs a full refresh instead of incremental processing.
+- The current pipeline performs a full refresh instead of incremental processing.
 
-\- Deduplication is based on matching selected business fields; identical invoice lines may require more careful business-level investigation.
+- Deduplication is based on matching selected business fields; identical invoice lines may require more careful business-level investigation.
 
-\- Missing customer IDs are retained, so customer-level analysis may cover only a subset of transactions.
+- Missing customer IDs are retained, so customer-level analysis may cover only a subset of transactions.
 
-\- Revenue represents quantity multiplied by unit price, with negative quantities reducing revenue. Its business definition should not be assumed to equal accounting revenue without reconciliation.
+- Revenue represents quantity multiplied by unit price, with negative quantities reducing revenue. Its business definition should not be assumed to equal accounting revenue without reconciliation.
 
-\- The current project has not yet implemented Terraform-based infrastructure provisioning.
+- The current project has not yet implemented Terraform-based infrastructure provisioning.
 
-\- Further improvements could include automated unit tests, CI/CD, incremental loading, a run-audit table and measured performance comparisons.
+- Further improvements could include automated unit tests, CI/CD, incremental loading, a run-audit table and measured performance comparisons.
 
 
 
-\## 11. Responsible Data Engineering
+## 11. Responsible Data Engineering
 
 
 
@@ -380,7 +380,7 @@ No credentials or secrets should be committed to the repository.
 
 
 
-\## 12. Acknowledgements
+## 12. Acknowledgements
 
 
 
